@@ -130,19 +130,17 @@ function deg(radians){
 // }
 // $('head').appendChild(logoElement);
 
-// variable
+// fixed variable
 const api = 'https://twtsl.ccu.edu.tw/TSL//lib/api.php';
 const idMin = 1, idMax = 3118;
 
-// start
+// inject element
 let body = document.body;
-
 function callTop(script){
     let scriptElement = $e('script');
     scriptElement.innerHTML = script;
     body.appendChild(scriptElement);
 }
-
 let box = $e('div');
 box.style.display = 'flex';
 box.style.flexDirection = 'column';
@@ -160,6 +158,17 @@ let input = $e('input');
 input.type = 'number';
 input.style.outline = 'none';
 input.style.fontWeight = 'bold';
+input.getInformation = function (){
+    fetch(api + `?fname=querySearch&id=${input.value}&lang=zh_tw`)
+        .then(json => json.json())
+        .then(data => data['Record'][0])
+        .then(record => record['name'])
+        .then(output => {console.log(output); name.innerText = output; return(output);})
+        .catch(error => name.innerText = '-----');
+};
+input.search = function (){
+    callTop(`window.querySearch(${input.value});`);
+};
 window.addEventListener('keydown', event => {
     if(event.key == '/'){
         event.stopPropagation();
@@ -172,7 +181,7 @@ input.addEventListener('keyup', event => {
     let search = false;
     if(event.key == 'Enter'){
         event.preventDefault();
-        callTop(`window.querySearch(${input.value});`);
+        input.search();
     }
     if(event.key == 'ArrowLeft' || event.key == 'ArrowDown'){
         event.preventDefault();
@@ -193,12 +202,7 @@ input.addEventListener('keyup', event => {
         search = true;
     }
     if(search){
-        fetch(api + `?fname=querySearch&id=${input.value}&lang=zh_tw`)
-        .then(json => json.json())
-        .then(data => data['Record'][0])
-        .then(record => record['name'])
-        .then(output => {console.log(output); name.innerText = output; return(output);})
-        .catch(error => name.innerText = '-----');
+        input.getInformation();
     }
 });
 box.appendChild(input);
@@ -207,3 +211,9 @@ name.style.fontWeight = 'bold';
 name.style.color = 'black';
 name.style.textShadow = '0.1vw 0.1vw 0px white';
 box.appendChild(name);
+
+// get arguments
+if('id' in $_GET){
+    input.value = $_GET['id'];
+    setTimeout(input.search, 1e3);
+}

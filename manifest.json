@@ -15,8 +15,8 @@
                 "main.js"
             ],
             "matches": [
-                "http://twtsl.ccu.edu.tw/TSL/index.php",
-                "https://twtsl.ccu.edu.tw/TSL/index.php"
+                "http://twtsl.ccu.edu.tw/TSL/index.php*",
+                "https://twtsl.ccu.edu.tw/TSL/index.php*"
             ],
             "run_at": "document_end"
         }
