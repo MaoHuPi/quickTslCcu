@@ -1,0 +1,29 @@
+{
+    "name": "Quick TSL CCU",
+    "description": "透過此擴充功能，讓使用者能以連結來紀錄、分享查詢之結果，並進行快速預覽及自我測驗。",
+    "version": "1.0.0",
+    "manifest_version": 2,
+    "icons": {
+        "128": "/image/logo.png",
+        "16": "/image/logo.png",
+        "48": "/image/logo.png"
+    },
+    "content_scripts": [
+        {
+            "all_frames": false,
+            "js": [
+                "main.js"
+            ],
+            "matches": [
+                "http://twtsl.ccu.edu.tw/TSL/index.php",
+                "https://twtsl.ccu.edu.tw/TSL/index.php"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "homepage_url": "https://twtsl.ccu.edu.tw/TSL/index.php",
+    "incognito": "spanning",
+    "omnibox": {
+        "keyword": "tsl ccu quickly qtc"
+    }
+}
